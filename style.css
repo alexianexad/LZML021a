@@ -9,7 +9,7 @@ html {
     width: 80%;
     margin: auto;
     background-color: rgb(133, 171, 192);
-    border: 2px solid #5c72b1;
+    border: 2px solid #cbd3e9;
     padding: 20px;
 }
 
@@ -33,7 +33,7 @@ th, td {
     text-align: center;
 }
 
-/* About Me */
+
 #aboutme {
     margin-top: 20px;
 }
