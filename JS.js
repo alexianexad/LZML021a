@@ -1,4 +1,4 @@
-function Nom() {
+function nom() {
     let nom = prompt("Quel est votre nom ?");
     if (nom) {
         alert("Bonjour, " + nom + " !");
