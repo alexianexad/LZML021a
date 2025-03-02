@@ -45,3 +45,7 @@ footer {
     margin-top: 20px;
     font-weight: bold;
 }
+
+button:hover {
+    background-color: #72dfd0;
+}
