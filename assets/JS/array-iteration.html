@@ -16,7 +16,7 @@
             function exempleForEach() {
                 let tableau = ["Ceci est mon premier paragraphe", "Ceci est mon deuxième paragraphe", "Paragraphe 3", "Et un dernier !"];
                 // on créé une liste avec le texte
-                let liste = "<ol>"
+                let liste = "<ol>";
                 tableau.forEach(element => liste += "<li>" + element + "</li>"); // element = chaque élément de tableau (les paragraphes)
                 liste += "</ol>"; // on pense à fermer
                 document.getElementById("forEachHolder").innerHTML = liste;
