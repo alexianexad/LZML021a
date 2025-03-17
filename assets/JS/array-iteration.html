@@ -16,9 +16,9 @@
             function exempleForEach() {
                 let tableau = ["Ceci est mon premier paragraphe", "Ceci est mon deuxième paragraphe", "Paragraphe 3", "Et un dernier !"];
                 // on créé une liste avec le texte
-                let liste = "<ul>"
+                let liste = "<ol>"
                 tableau.forEach(element => liste += "<li>" + element + "</li>"); // element = chaque élément de tableau (les paragraphes)
-                liste += "</ul>"; // on pense à fermer
+                liste += "</ol>"; // on pense à fermer
                 document.getElementById("forEachHolder").innerHTML = liste;
 
                 document.getElementById("forEachCodeHolder").innerHTML = `let tableau = ${'["' + tableau.join('", "') + '"]'};
@@ -33,7 +33,7 @@ document.getElementById("forEachHolder").innerHTML = liste;`
 
             // exemple
             function exempleMap() {
-                let tableau = [1, 2, 3];
+                let tableau = [9, 10, 11, 12]];
                 resultat = tableau.map(element => element + 1);
     
                 document.getElementById("mapCodeHolder").innerHTML = `let tableau = ${'[' + tableau.join(', ') + ']'}
@@ -45,13 +45,28 @@ resultat = tableau.map(element => element + 1);`;
             // exemple
             function exempleFilter() {
                 let tableau = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-                resultat = tableau.filter(element => 4 <= element && element <= 6);
+                resultat = tableau.filter(element => 5 <= element && element <= 10);
     
                 document.getElementById("filterCodeHolder").innerHTML = `let tableau = ${'[' + tableau.join(', ') + ']'}
-resultat = tableau.filter(element => 4 <= element && element <= 6);`;
+resultat = tableau.filter(element => 5 <= element && element <= 10);`;
 
                 document.getElementById("filterHolder").innerHTML = `resultat vaut ${'[' + resultat.join(', ') + ']'}`;
             }
+
+            function exempleFilter2() {
+    let tableau = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // Liste de nombres
+    let resultat = tableau.filter(element => element === 7); // uniquement le 7
+
+    // On affiche le code mis à jour
+    document.getElementById("filterCodeHolder").innerHTML += `<br/><br/>let tableau = ${'[' + tableau.join(', ') + ']'}
+resultat = tableau.filter(element => element === 7);`;
+
+    // On affiche le résultat
+    document.getElementById("filterHolder").innerHTML += `<br/>resultat vaut ${'[' + resultat.join(', ') + ']'}`;
+}
+
+
+            
         </script>
     </head>
 
