@@ -1,0 +1,88 @@
+<html>
+
+
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <meta charset="UTF-8" />
+        <title>Programmation pour les humanités numériques</title>
+
+        <style>
+        .mycode {background-color: black; color: white;}
+        .myoutput {background-color: #CCCCCC; color: red;}
+        </style>
+        
+        <script type="text/javascript" language="javascript">
+            function exemple1() {
+                let mon_tableau = [1,2,3];
+                document.getElementById('toStringCodeHolder').innerHTML = `let mon_tableau = ${'["' + mon_tableau.join('", "') + '"]'};
+let resultat = mon_tableau.toString();`
+                document.getElementById('toStringHolder').innerHTML = mon_tableau.toString();
+            }
+            
+            function exemple2() {
+                let mon_tableau = ["a", 5, "hello"];
+                document.getElementById('toStringCodeHolder').innerHTML = `let mon_tableau = ${'["' + mon_tableau.join('", "') + '"]'};
+let resultat = mon_tableau.toString();`
+                document.getElementById('toStringHolder').innerHTML = mon_tableau.toString();
+            }
+            
+            function exemple3() {
+                let mon_tableau = ["Le", "chat", "dort", "."];
+                let separateur = document.getElementById('separator').value;
+                document.getElementById('joinCodeHolder').innerHTML = `let mon_tableau = ${'["' + mon_tableau.join('", "') + '"]'};
+let separateur = "${separateur}";
+let resultat = mon_tableau.join(separateur);`
+                document.getElementById('joinHolder').innerHTML = mon_tableau.join(separateur);
+            }
+        </script>
+    </head>
+
+
+    <body style="background-color:CCCCCC;">
+        <section class="section column is-half is-offset-one-quarter" style="background-color:F8F8F8;">
+            <div class="container" style="text-align:center;">
+                <div class="block" >
+                    <span class="title">Exemples de méthodes de chaînes : toString() et join()</span>
+                </div>
+                <div class="hero-body" style="text-align:justify;">
+                    <p>Cliquez sur les boutons pour faire tourner les exemples.</p>
+                    <p>Le code javascript est dans le code source de la page : ouvrez ce fichier avec un éditeur de texte pour le voir (ou en console de développeur).</p>
+                    <br/>
+                    <h2 class="has-background-info has-text-white">avec la méthode toString()</h2>
+                    <br/>
+
+                    <p>On peut lui donner un tableau et obtenir la liste des éléments séparés par des virgules :</p>
+                    <br/>
+
+                    <button onclick="exemple1()">avec le tableau [1,2,3]</button>
+                    <button onclick="exemple2()">avec le tableau ["a", 5, "hello"]</button>
+                    <br/>
+                    <br/>
+                    <pre id="toStringCodeHolder" class="mycode"></pre>
+                    <br/>
+                    <p>Résultat :</p>
+                    <pre id="toStringHolder" class="myoutput"></pre>
+                    <br/>                    
+
+                    <h2 class="has-background-info has-text-white">avec la méthode join()</h2>
+                    <br/>
+
+                    <p>On peut lui donner un tableau et obtenir la liste des éléments séparés par des virgules :</p>
+                    <br/>
+
+                    <label for="separator">Entrez le séparateur :</label>
+                    <input id="separator" type="text" value=","><br/>
+                    <button onclick="exemple3()">joindre ["Le", "chat", "dort", "."]</button>
+                    <br/>
+                    <br/>
+                    <pre id="joinCodeHolder" class="mycode"></pre>
+                    <br/>
+                    <p>Résultat :</p>
+                    <pre id="joinHolder" class="myoutput"></pre>
+                </div>
+            </div>
+        </section>
+    </body>
+
+
+</html>
