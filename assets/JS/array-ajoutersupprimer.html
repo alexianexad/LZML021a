@@ -1,0 +1,170 @@
+<html>
+
+
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+        <meta charset="UTF-8" />
+        <title>Programmation pour les humanités numériques</title>
+
+        <style>
+        .mycode {background-color: black; color: white;}
+        .myoutput {background-color: #CCCCCC; color: red;}
+        </style>
+        
+        <script type="text/javascript" language="javascript">
+            // exemple
+            function exemplePop1() {
+                let mon_tableau = [1,2,3]
+
+                document.getElementById('popCodeHolder').innerHTML = `let mon_tableau = ${'["' + mon_tableau.join('", "') + '"]'};
+let resultat = mon_tableau.pop();`
+
+                let resultat = mon_tableau.pop();
+
+                document.getElementById('popHolder').innerHTML = `resultat vaut ${resultat}
+mon_tableau vaut ${'[' + mon_tableau.join(', ') + ']'}`;
+            }
+
+
+            // exemple
+            function exemplePop2() {
+                let mon_tableau = ["Le", "chat", "dort"];
+
+                document.getElementById('popCodeHolder').innerHTML = `let mon_tableau = ${'["' + mon_tableau.join('", "') + '"]'};
+let resultat = mon_tableau.pop();`
+
+                let resultat = mon_tableau.pop();
+
+                document.getElementById('popHolder').innerHTML = `resultat vaut ${resultat}
+mon_tableau vaut ${'[' + mon_tableau.join(', ') + ']'}`;
+            }
+
+
+            // exemple
+            function exemplePush() {
+                let mon_tableau = ["a", "5", "hello"];
+
+                document.getElementById('popCodeHolder').innerHTML = `let mon_tableau = ${'["' + mon_tableau.join('", "') + '"]'};
+let resultat = mon_tableau.pop();`
+
+                let resultat = mon_tableau.pop();
+
+                document.getElementById('popHolder').innerHTML = `resultat vaut ${resultat}
+mon_tableau vaut ${'[' + mon_tableau.join(', ') + ']'}`;
+            }
+
+
+            // exemple
+            function exemplePush() {
+                let mon_tableau = ["Le", "chat", "dort"];
+                let element = document.getElementById('separator').value;
+
+                document.getElementById('pushCodeHolder').innerHTML = `let mon_tableau = ${'["' + mon_tableau.join('", "') + '"]'};
+let element = "${element}";
+mon_tableau.push(element);`
+
+                mon_tableau.push(element);
+
+                document.getElementById('pushHolder').innerHTML = `mon_tableau vaut ${'["' + mon_tableau.join('", "') + '"]'}`;
+            }
+            
+
+
+            // exemple
+            function exempleShift() {
+                let mon_tableau = [1,2,3];
+
+                document.getElementById('shiftCodeHolder').innerHTML = `let mon_tableau = ${'["' + mon_tableau.join('", "') + '"]'};
+mon_tableau.shift(element);`
+
+                mon_tableau.shift();
+
+                document.getElementById('shiftHolder').innerHTML = `mon_tableau vaut ${'["' + mon_tableau.join('", "') + '"]'}`;
+            }
+
+
+            // exemple
+            function exempleUnshift() {
+                let mon_tableau = ["chat", "dort", "."];
+                let element = document.getElementById('elementUnshift').value;
+
+                document.getElementById('unshiftCodeHolder').innerHTML = `let mon_tableau = ${'["' + mon_tableau.join('", "') + '"]'};
+let element = "${element}";
+mon_tableau.unshift(element);`
+
+                mon_tableau.unshift(element);
+
+                document.getElementById('unshiftHolder').innerHTML = `mon_tableau vaut ${'["' + mon_tableau.join('", "') + '"]'}`;
+            }
+        </script>
+    </head>
+
+
+    <body style="background-color:CCCCCC;">
+        <section class="section column is-half is-offset-one-quarter" style="background-color:F8F8F8;">
+            <div class="container" style="text-align:center;">
+                <div class="block" >
+                    <span class="title">Ajouter et supprimer des éléments 1</span>
+                </div>
+                <div class="hero-body" style="text-align:justify;">
+                    <p>Cliquez sur les boutons pour faire tourner les exemples.</p>
+                    <p>Le code javascript est dans le code source de la page : ouvrez ce fichier avec un éditeur de texte pour le voir (ou en console de développeur).</p>
+                    <br/>
+                    <h2 class="has-background-info has-text-white">Retirer à la fin : pop()</h2>
+                    <br/>
+
+                    <button onclick="exemplePop1()">avec le tableau [1,2,3]</button>
+                    <button onclick="exemplePop2()">avec le tableau ["a", 5, "hello"]</button>
+                    <br/>
+                    <br/>
+                    <pre id="popCodeHolder" class="mycode"></pre>
+                    <br/>
+                    <p>Résultat :</p>
+                    <pre id="popHolder" class="myoutput"></pre>
+                    <br/>                    
+
+                    <h2 class="has-background-info has-text-white">Ajouter à la fin : push()</h2>
+                    <br/>
+
+                    <label for="separator">Entrez l'élément à ajouter :</label>
+                    <input id="separator" type="text" value="."><br/>
+                    <button onclick="exemplePush()">push sur ["Le", "chat", "dort"]</button>
+                    <br/>
+                    <br/>
+                    <pre id="pushCodeHolder" class="mycode"></pre>
+                    <br/>
+                    <p>Résultat :</p>
+                    <pre id="pushHolder" class="myoutput"></pre>
+                    
+                    <br/>
+                    <h2 class="has-background-info has-text-white">Retirer au début : shift()</h2>
+                    <br/>
+
+                    <button onclick="exempleShift()">avec le tableau [1,2,3]</button>
+                    <br/>
+                    <br/>
+                    <pre id="shiftCodeHolder" class="mycode"></pre>
+                    <br/>
+                    <p>Résultat :</p>
+                    <pre id="shiftHolder" class="myoutput"></pre>
+                    <br/>                    
+
+                    <h2 class="has-background-info has-text-white">Ajouter au début : unshift()</h2>
+                    <br/>
+
+                    <label for="elementUnshift">Entrez l'élément à ajouter :</label>
+                    <input id="elementUnshift" type="text" value="Le"><br/>
+                    <button onclick="exempleUnshift()">push sur ["chat", "dort", "."]</button>
+                    <br/>
+                    <br/>
+                    <pre id="unshiftCodeHolder" class="mycode"></pre>
+                    <br/>
+                    <p>Résultat :</p>
+                    <pre id="unshiftHolder" class="myoutput"></pre>
+                </div>
+            </div>
+        </section>
+    </body>
+
+
+</html>
