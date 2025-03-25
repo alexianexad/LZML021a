@@ -14,6 +14,35 @@ let name = document.getElementById("Comment vous appelez vous?").value;
 function afficherAide() {
     alert("Bienvenue sur mon site !");
 }
+function segmenterTexte() {
+    const fileInput = document.getElementById("fileInput");
+    const delimiters = document.getElementById("delimID").value;
+    const displayArea = document.getElementById("page-analysis");
+
+    if (!fileInput.files.length) {
+        alert("Veuillez sélectionner un fichier !");
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+        let text = event.target.result;
+
+        // Création d'une regex pour les délimiteurs
+        let regex = new RegExp("[" + delimiters.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&") + "]+", "g");
+
+        // Segmentation du texte
+        let segments = text.split(regex).filter(segment => segment.trim() !== "");
+
+        // Affichage du résultat
+        displayArea.innerHTML = "<h3>Résultat de la segmentation :</h3><p>" + segments.join("<br>") + "</p>";
+    };
+
+    reader.readAsText(file);
+}
+
 window.onload = function() {
     let fileInput = document.getElementById('fileInput');
     let fileDisplayArea = document.getElementById('fileDisplayArea');
