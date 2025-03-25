@@ -48,3 +48,14 @@ footer {
 button:hover {
     background-color: #72dfd0;
 }
+#container {
+	background-color: white;
+	border: 3px solid black;
+	padding: 2px;
+	padding-bottom: 5%; 
+	width: 80%;
+	margin-left:10%;
+	height: 100%;
+	min-height: 100%;
+	position: relative;
+}
