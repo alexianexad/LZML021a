@@ -90,4 +90,6 @@ window.onload = function() {
             document.getElementById("logger").innerHTML = '<span class="errorlog">Type de fichier non supporté !</span>';
         }
     });
+
+      document.querySelector("button:nth-of-type(2)").onclick = segmenterTexte;
 }
