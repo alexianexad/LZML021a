@@ -14,6 +14,18 @@ let name = document.getElementById("Comment vous appelez vous?").value;
 function afficherAide() {
     alert("Bienvenue sur mon site !");
 }
+
+function segmenter() {
+    let texte = document.getElementById("texte").value;
+    let tokens = texte.split(" ");
+    let table = document.createElement("table");
+    tokens.forEach(mot => {
+        let row = document.createElement("tr");
+        row.innerHTML = mot;
+        table.appendChild(row);
+    });
+    document.getElementById("texteResultat").appendChild(table);
+}
 function segmenterTexte() {
     const fileInput = document.getElementById("fileInput");
     const delimiters = document.getElementById("delimID").value;
