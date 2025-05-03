@@ -99,3 +99,15 @@ function concordancier() {
     document.getElementById("resultats").innerHTML = html;
 }
 
+function surlignerVoyelles() {
+    if (!texteComplet) {
+        alert("Veuillez charger un fichier avant d’utiliser cette fonction.");
+        return;
+    }
+
+    const voyellesRegex = /[aeiouyàâäéèêëîïôöùûü]/gi;
+    const texteModifie = texteComplet.replace(voyellesRegex, v => `<span class="surligne">${v}</span>`);
+    
+    document.getElementById("resultats").innerHTML = "<h2>Texte avec voyelles surlignées</h2><div>" + texteModifie + "</div>";
+}
+
