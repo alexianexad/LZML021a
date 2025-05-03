@@ -1,4 +1,4 @@
-fonction demanderNom() {
+function demanderNom() {
     let nom = prompt("Quel est vetre nom?");
     if (nom) {
         alert("Bonjour,"+ nom+"!");
@@ -11,8 +11,14 @@ fonction prenom () {
 let name = document.getElementById("Comment vous appelez vous?").value;
     document.getElementById("holder1").innerHTML = name;
 }
+
+function afficherNom() {
+    const message = "Bonjour!";
+    document.getElementById("resultat").innerHTML = message;
+}
 function afficherAide() {
     alert("Bienvenue sur mon site !");
+ document.getElementById("resultat").innerHTML = aide;    
 }
 
 function segmenter() {
@@ -24,6 +30,7 @@ function segmenter() {
         row.innerHTML = mot;
         table.appendChild(row);
     });
+    document.getElementById("texteResultat").innerHTML = "";
     document.getElementById("texteResultat").appendChild(table);
 }
 function segmenterTexte() {
