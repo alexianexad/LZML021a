@@ -7,7 +7,7 @@ alert("Vous n'avez pas entré de nom.);
 }
 }
 
-fonction prenom () {
+function prenom () {
 let name = document.getElementById("Comment vous appelez vous?").value;
 document.getElementById("holder1").innerHTML = name;
 }
