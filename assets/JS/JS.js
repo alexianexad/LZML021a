@@ -20,7 +20,35 @@ function afficherAide() {
     alert("Bienvenue sur mon site !");
  document.getElementById("resultat").innerHTML = aide;    
 }
+function dictionnaire() {
+    if (tokensGlobaux.length === 0) {
+        alert("Aucun token trouvé ! Chargez un fichier d'abord.");
+        return;
+    }
 
+    // Création d’un dictionnaire de fréquences
+    let freqs = {};
+    tokensGlobaux.forEach(tok => {
+        tok = tok.toLowerCase();
+        if (freqs[tok]) {
+            freqs[tok]++;
+        } else {
+            freqs[tok] = 1;
+        }
+    });
+
+    // Conversion en tableau trié
+    let sorted = Object.entries(freqs).sort((a, b) => b[1] - a[1]);
+
+    // Affichage dans un tableau HTML
+    let table = "<table><tr><th>Forme</th><th>Fréquence</th></tr>";
+    sorted.forEach(([mot, freq]) => {
+        table += `<tr><td>${mot}</td><td>${freq}</td></tr>`;
+    });
+    table += "</table>";
+
+    document.getElementById("texteResultat").innerHTML = "<h3>📊 Dictionnaire de fréquences</h3>" + table;
+}
 function segmenter() {
     let texte = document.getElementById("texte").value;
     let tokens = texte.split(" ");
