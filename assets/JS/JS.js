@@ -1,92 +1,101 @@
-// assets/JS/script.js
-
-// Variables globales pour stocker le texte brut, tokens et lignes
-let rawText = "";
+// Variables globales
 let tokens = [];
 let lignes = [];
+let texteComplet = "";
 
-// Chargement du fichier et segmentation automatique
-const fileInput = document.getElementById("fileInput");
-fileInput.addEventListener("change", function(e) {
-    const file = e.target.files[0];
-    if (!file) return alert("Aucun fichier sélectionné.");
-    if (!file.type.match(/^text\//)) return alert("Type non supporté. Choisissez un fichier texte.");
+// Fonction de segmentation automatique au chargement du fichier
+document.getElementById("fileInput").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = function(ev) {
-        rawText = ev.target.result;
-        // Segmentation en lignes
-        lignes = rawText.split(/\r?\n/).filter(l => l.trim() !== "");
-        // Segmentation en tokens
-        const delim = document.getElementById("delimID").value;
-        const regexDelim = new RegExp("[" + delim.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&") + "]+", "g");
-        tokens = rawText.split(regexDelim).filter(t => t.trim() !== "");
+    reader.onload = function(e) {
+        texteComplet = e.target.result;
 
-        // Affichage du texte brut
-        document.getElementById("fileDisplayArea").textContent = rawText;
-        alert(`Fichier chargé : ${tokens.length} tokens, ${lignes.length} lignes non vides.`);
+        // Segmentation en lignes (enlevant les lignes vides)
+        lignes = texteComplet.split(/\r?\n/).filter(l => l.trim() !== "");
+
+        // Segmentation en tokens (mots)
+        tokens = texteComplet.match(/\b\w+\b/g) || [];
+
+        // Afficher les informations
+        const info = `Fichier chargé : ${file.name} | ${tokens.length} tokens | ${lignes.length} lignes non vides.`;
+        document.getElementById("fileInfo").textContent = info;
+
+        // Réinitialiser les résultats
+        document.getElementById("resultats").innerHTML = "";
     };
     reader.readAsText(file);
 });
 
-// Fonction dictionnaire: compte et trie les tokens
+// Fonction dictionnaire : tri des mots par fréquence
 function dictionnaire() {
-    if (tokens.length === 0) return alert("Erreur : chargez d'abord un fichier.");
+    if (tokens.length === 0) {
+        alert("Veuillez charger un fichier avant d’utiliser cette fonction.");
+        return;
+    }
 
-    const freq = {};
+    const freqs = {};
     tokens.forEach(token => {
         const t = token.toLowerCase();
-        freq[t] = (freq[t] || 0) + 1;
+        freqs[t] = (freqs[t] || 0) + 1;
     });
-    const sorted = Object.entries(freq).sort((a,b) => b[1] - a[1]);
 
-    // Construction du tableau HTML
-    let html = '<h3>Dictionnaire</h3><table><tr><th>Mot</th><th>Fréquence</th></tr>';
-    sorted.forEach(([mot, count]) => {
-        html += `<tr><td>${mot}</td><td>${count}</td></tr>`;
+    const sorted = Object.entries(freqs).sort((a, b) => b[1] - a[1]);
+
+    let html = "<h2>Dictionnaire (par fréquence)</h2><table><tr><th>Mot</th><th>Fréquence</th></tr>";
+    sorted.forEach(([mot, freq]) => {
+        html += `<tr><td>${mot}</td><td>${freq}</td></tr>`;
     });
-    html += '</table>';
-    document.getElementById("page-analysis").innerHTML = html;
+    html += "</table>";
+
+    document.getElementById("resultats").innerHTML = html;
 }
 
-// Fonction grep: affiche les lignes contenant le pôle, surligné en rouge
+// Fonction grep : chercher une regex dans les lignes et surligner
 function grep() {
-    if (lignes.length === 0) return alert("Erreur : chargez d'abord un fichier.");
-    const pole = document.getElementById("poleID").value;
-    if (!pole) return alert("Erreur : entrez un pôle.");
+    const motif = document.getElementById("motif").value;
+    if (lignes.length === 0 || !motif) {
+        alert("Veuillez charger un fichier et saisir un motif.");
+        return;
+    }
 
-    const regex = new RegExp(pole, 'gi');
-    let result = '<h3>Résultats GREP</h3><ul>';
+    const regex = new RegExp(motif, "gi");
+    let resultat = "<h2>Résultats Grep</h2><ul>";
+
     lignes.forEach(ligne => {
         if (regex.test(ligne)) {
-            const highlighted = ligne.replace(regex, match => `<span class='highlight'>${match}</span>`);
-            result += `<li>${highlighted}</li>`;
+            const surligné = ligne.replace(regex, match => `<span class="surligne">${match}</span>`);
+            resultat += `<li>${surligné}</li>`;
         }
     });
-    result += '</ul>';
-    document.getElementById("page-analysis").innerHTML = result;
+
+    resultat += "</ul>";
+    document.getElementById("resultats").innerHTML = resultat;
 }
 
-// Fonction concordancier: affiche contexte gauche/pôle/droit
+// Fonction concordancier : tableau avec contexte gauche, pôle, droit
 function concordancier() {
-    if (lignes.length === 0) return alert("Erreur : chargez d'abord un fichier.");
-    const pole = document.getElementById("poleID").value;
-    if (!pole) return alert("Erreur : entrez un pôle.");
+    const motif = document.getElementById("motif").value;
+    if (lignes.length === 0 || !motif) {
+        alert("Veuillez charger un fichier et saisir un motif.");
+        return;
+    }
 
-    const regex = new RegExp(`(.{0,30})(${pole})(.{0,30})`, 'gi');
-    let html = '<h3>Concordancier</h3><table><tr><th>Contexte gauche</th><th>Pôle</th><th>Contexte droit</th></tr>';
+    const regex = new RegExp(`(.{0,30})\\b(${motif})\\b(.{0,30})`, "gi");
+    let html = "<h2>Concordancier</h2><table><tr><th>Contexte gauche</th><th>Pôle</th><th>Contexte droit</th></tr>";
+
     lignes.forEach(ligne => {
         let match;
         while ((match = regex.exec(ligne)) !== null) {
-            html += `<tr><td>${match[1]}</td><td><strong>${match[2]}</strong></td><td>${match[3]}</td></tr>`;
+            const gauche = match[1].trim();
+            const mot = match[2];
+            const droite = match[3].trim();
+            html += `<tr><td>${gauche}</td><td class="surligne">${mot}</td><td>${droite}</td></tr>`;
         }
     });
-    html += '</table>';
-    document.getElementById("page-analysis").innerHTML = html;
+
+    html += "</table>";
+    document.getElementById("resultats").innerHTML = html;
 }
 
-// Gestion des erreurs et association aux boutons
-// Dans HTML :
-// <button onclick="dictionnaire()">Dictionnaire</button>
-// <button onclick="grep()">Grep</button>
-// <button onclick="concordancier()">Concordancier</button>
