@@ -98,3 +98,21 @@ function concordancier() {
     html += "</table>";
     document.getElementById("resultats").innerHTML = html;
 }
+
+function surlignerVoyelles() {
+    if (!texteComplet) {
+        alert("Veuillez charger un fichier avant d’utiliser cette fonction.");
+        return;
+    }
+
+    // Échapper les caractères HTML pour garder la mise en page
+    const texteSecurise = texteComplet
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+    // Remplacement des voyelles par "/"
+    const texteModifie = texteSecurise.replace(/[aeiouyàâäéèêëîïôöùûü]/gi, "/");
+
+    document.getElementById("resultats").innerHTML = "<h2>Texte avec voyelles remplacées par /</h2><pre>" + texteModifie + "</pre>";
+}
