@@ -87,14 +87,14 @@
                     <button class="special" onclick="alert('Voici un site qui permet d\'analyser des textes.');"><span>Bonjour</span></button> <!-- commenter -->
                     <br />
                     <br />
-                    <button class="submit" onclick="alert('Je ne fais rien, changez-moi !');"><span>segmentation</span></button>
-                    <button onclick="dictionnaire()">Dictionnaire</button>
-                    <button class="submit" onclick="alert('Je ne fais rien, changez-moi !')"><span>action 2</span></button>
-                    <button class="submit" onclick="alert('Je ne fais rien, changez-moi !')"><span>action 3</span></button>
-                    <button class="submit" onclick="alert('Je ne fais rien, changez-moi !')"><span>action 4</span></button>
-                    <button class="submit" onclick="alert('Je ne fais rien, changez-moi !')"><span>action 5</span></button>
-                    <button class="submit" onclick="alert('Je ne fais rien, changez-moi !')"><span>action 6</span></button>
-                </p>
+                
+                    <div class="actions">
+        <button onclick="dictionnaire()"> Dictionnaire</button>
+        <button onclick="grep(document.getElementById('grepInput').value)"> Grep</button>
+        <input type="text" id="grepInput" placeholder="Expression grep...">
+        <button onclick="concordancier(document.getElementById('concInput').value)">📖 Concordancier</button>
+        <input type="text" id="concInput" placeholder="Mot à chercher...">
+    </div>
             </div>
             <div id="logger" style="width:100%"></div>
             <br />
