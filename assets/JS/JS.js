@@ -1,137 +1,105 @@
-// Fonction qui demande le nom à l'utilisateur via une boîte de dialogue
-function demanderNom() {
-    let nom = prompt("Quel est votre nom?");
-    if (nom) {
-        alert("Bonjour, " + nom + "!");
-    } else {
-        alert("Vous n'avez pas entré de nom.");
-    }
+voici mon js de base fonction demanderNom() {
+let nom = prompt("Quel est vetre nom?");
+if (nom) {
+alert("Bonjour,"+ nom+"!");
+} else {
+alert("Vous n'avez pas entré de nom.);
+}
 }
 
-// Fonction incorrectement nommée : "fonction" au lieu de "function"
-// Corrigée ci-dessous :
-// Fonction qui récupère la valeur d’un champ input et l’affiche dans un élément HTML
-function prenom() {
-    let name = document.getElementById("Comment vous appelez vous?").value; // Erreur probable ici : l’id d’un élément ne doit pas contenir de point d’interrogation
-    document.getElementById("holder1").innerHTML = name;
+fonction prenom () {
+let name = document.getElementById("Comment vous appelez vous?").value;
+document.getElementById("holder1").innerHTML = name;
 }
-
-// Affiche un message "Bonjour!" dans un élément avec l’ID "resultat"
-function afficherNom() {
-    const message = "Bonjour!";
-    document.getElementById("resultat").innerHTML = message;
-}
-
-// Affiche une alerte de bienvenue et tente d’écrire "aide" dans la page
-// Mais ici "aide" n’est pas défini → il manque probablement une variable ou une chaîne de texte
 function afficherAide() {
-    alert("Bienvenue sur mon site !");
-    document.getElementById("resultat").innerHTML = aide; // Erreur potentielle : 'aide' n'est pas défini
+alert("Bienvenue sur mon site !");
 }
 
-// Affiche un dictionnaire de fréquence des mots dans les tokens globaux
-function dictionnaire() {
-    if (tokensGlobaux.length === 0) {
-        alert("Aucun token trouvé ! Chargez un fichier d'abord.");
-        return;
-    }
-
-    // Création du dictionnaire de fréquences
-    let freqs = {};
-    tokensGlobaux.forEach(tok => {
-        tok = tok.toLowerCase();
-        if (freqs[tok]) {
-            freqs[tok]++;
-        } else {
-            freqs[tok] = 1;
-        }
-    });
-
-    // Tri du dictionnaire par fréquence décroissante
-    let sorted = Object.entries(freqs).sort((a, b) => b[1] - a[1]);
-
-    // Création du tableau HTML avec les fréquences
-    let table = "<table><tr><th>Forme</th><th>Fréquence</th></tr>";
-    sorted.forEach(([mot, freq]) => {
-        table += `<tr><td>${mot}</td><td>${freq}</td></tr>`;
-    });
-    table += "</table>";
-
-    document.getElementById("texteResultat").innerHTML = "<h3>📊 Dictionnaire de fréquences</h3>" + table;
-}
-
-// Fonction de segmentation simple à partir d’un champ texte (input)
 function segmenter() {
-    let texte = document.getElementById("texte").value;
-    let tokens = texte.split(" "); // Séparation par les espaces
-    let table = document.createElement("table");
-
-    tokens.forEach(mot => {
-        let row = document.createElement("tr");
-        row.innerHTML = mot; // Affiche un mot par ligne
-        table.appendChild(row);
-    });
-
-    document.getElementById("texteResultat").innerHTML = "";
-    document.getElementById("texteResultat").appendChild(table);
+let texte = document.getElementById("texte").value;
+let tokens = texte.split(" ");
+let table = document.createElement("table");
+tokens.forEach(mot => {
+let row = document.createElement("tr");
+row\.innerHTML = mot;
+table.appendChild(row);
+});
+document.getElementById("texteResultat").appendChild(table);
 }
-
-// Fonction qui segmente un fichier texte en utilisant des délimiteurs personnalisés
 function segmenterTexte() {
-    const fileInput = document.getElementById("fileInput");
-    const delimiters = document.getElementById("delimID").value; // Récupère les délimiteurs donnés par l’utilisateur
-    const displayArea = document.getElementById("page-analysis");
+const fileInput = document.getElementById("fileInput");
+const delimiters = document.getElementById("delimID").value;
+const displayArea = document.getElementById("page-analysis");
 
-    if (!fileInput.files.length) {
-        alert("Veuillez sélectionner un fichier !");
-        return;
-    }
-
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function (event) {
-        let text = event.target.result;
-
-        // Création d’une expression régulière avec les délimiteurs
-        let regex = new RegExp("[" + delimiters.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&") + "]+", "g");
-
-        // Découpe du texte selon les délimiteurs
-        let segments = text.split(regex).filter(segment => segment.trim() !== "");
-
-        // Affichage du résultat
-        displayArea.innerHTML = "<h3>Résultat de la segmentation :</h3><p>" + segments.join("<br>") + "</p>";
-    };
-
-    reader.readAsText(file);
+```
+if (!fileInput.files.length) {
+    alert("Veuillez sélectionner un fichier !");
+    return;
 }
 
-// Code exécuté au chargement de la page
-window.onload = function () {
-    let fileInput = document.getElementById('fileInput');
-    let fileDisplayArea = document.getElementById('fileDisplayArea');
+const file = fileInput.files[0];
+const reader = new FileReader();
 
-    // Quand l'utilisateur choisit un fichier
-    fileInput.addEventListener('change', function (e) {
-        let file = fileInput.files[0];
-        let textType = new RegExp("text.*");
+reader.onload = function (event) {
+    let text = event.target.result;
 
-        // Vérifie si le fichier est un fichier texte
-        if (file.type.match(textType)) {
-            var reader = new FileReader();
+    // Création d'une regex pour les délimiteurs
+    let regex = new RegExp("[" + delimiters.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&") + "]+", "g");
 
-            reader.onload = function (e) {
-                fileDisplayArea.innerText = reader.result; // Affiche le contenu dans une zone dédiée
-            }
+    // Segmentation du texte
+    let segments = text.split(regex).filter(segment => segment.trim() !== "");
 
-            reader.readAsText(file); // Lance la lecture du fichier
+    // Affichage du résultat
+    displayArea.innerHTML = "<h3>Résultat de la segmentation :</h3><p>" + segments.join("<br>") + "</p>";
+};
 
-            document.getElementById("logger").innerHTML = '<span class="infolog">Fichier chargé avec succès</span>';
-        } else {
-            fileDisplayArea.innerText = "";
-            document.getElementById("logger").innerHTML = '<span class="errorlog">Type de fichier non supporté !</span>';
+reader.readAsText(file);
+```
+
+}
+
+window\.onload = function() {
+let fileInput = document.getElementById('fileInput');
+let fileDisplayArea = document.getElementById('fileDisplayArea');
+
+```
+// On "écoute" si le fichier donné a été modifié.
+// Si on a donné un nouveau fichier, on essaie de le lire.
+fileInput.addEventListener('change', function(e) {
+    // Dans le HTML (ligne 22), fileInput est un élément de tag "input" avec un attribut type="file".
+    // On peut récupérer les fichiers données avec le champs ".files" au niveau du javascript.
+    // On peut potentiellement donner plusieurs fichiers,
+    // mais ici on n'en lit qu'un seul, le premier, donc indice 0.
+    let file = fileInput.files[0];
+    // on utilise cette expression régulière pour vérifier qu'on a bien un fichier texte.
+    let textType = new RegExp("text.*");
+
+    if (file.type.match(textType)) { // on vérifie qu'on a bien un fichier texte
+        // lecture du fichier. D'abord, on crée un objet qui sait lire un fichier.
+        var reader = new FileReader();
+
+        // on dit au lecteur de fichier de placer le résultat de la lecture
+        // dans la zone d'affichage du texte.
+        reader.onload = function(e) {
+            fileDisplayArea.innerText = reader.result;
         }
-    });
+
+        // on lit concrètement le fichier.
+        // Cette lecture lancera automatiquement la fonction "onload" juste au-dessus.
+        reader.readAsText(file);    
+
+        document.getElementById("logger").innerHTML = '<span class="infolog">Fichier chargé avec succès</span>';
+    } else { // pas un fichier texte : message d'erreur.
+        fileDisplayArea.innerText = "";
+        document.getElementById("logger").innerHTML = '<span class="errorlog">Type de fichier non supporté !</span>';
+    }
+});
+
+  document.querySelector("button:nth-of-type(2)").onclick = segmenterTexte;
+```
+
+}
+
 
     // Associe la fonction de segmentation à un bouton
     document.querySelector("button:nth-of-type(2)").onclick = segmenterTexte;
