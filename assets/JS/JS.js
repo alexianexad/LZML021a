@@ -104,51 +104,112 @@ fileInput.addEventListener('change', function(e) {
     // Associe la fonction de segmentation à un bouton
     document.querySelector("button:nth-of-type(2)").onclick = segmenterTexte;
 }
-function dictionnaire() {
-  if (tokens.length === 0) {
-    afficherMessage("Erreur : aucun fichier chargé !");
-    return;
-  }
-  let freq = {};
-  tokens.forEach(t => freq[t] = (freq[t] || 0) + 1);
-  let sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
-  afficherTableau(sorted, "Forme", "Fréquence");
-}
+// Variables globales
+let tokens = [];
+let lignes = [];
 
-function grep(pole) {
-  if (lignes.length === 0) {
-    afficherMessage("Erreur : aucun fichier chargé !");
-    return;
-  }
-  if (!pole) {
-    afficherMessage("Erreur : aucun pôle fourni !");
-    return;
-  }
-  let exp = new RegExp(pole, "gi");
-  let resultats = lignes.filter(l => exp.test(l));
-  let colorie = l => l.replace(exp, m => `<span style="color:red">${m}</span>`);
-  let affichage = resultats.map(colorie).join("<br>");
-  document.getElementById("resultat").innerHTML = affichage;
-}
-
-function concordancier(pole, largeur = 5) {
-  if (tokens.length === 0) {
-    afficherMessage("Erreur : aucun fichier chargé !");
-    return;
-  }
-  if (!pole) {
-    afficherMessage("Erreur : aucun pôle fourni !");
-    return;
-  }
-  let regex = new RegExp(pole, "i");
-  let concordances = [];
-  for (let i = 0; i < tokens.length; i++) {
-    if (regex.test(tokens[i])) {
-      let gauche = tokens.slice(Math.max(0, i - largeur), i).join(" ");
-      let droite = tokens.slice(i + 1, i + 1 + largeur).join(" ");
-      concordances.push([gauche, tokens[i], droite]);
+// Chargement et segmentation
+function chargerTexte() {
+    const textarea = document.getElementById("texte");
+    const texte = textarea.value.trim();
+    
+    if (!texte) {
+        alert("Veuillez d'abord coller un texte.");
+        return;
     }
-  }
-  afficherTableau(concordances, "Contexte gauche", "Pôle", "Contexte droit");
+
+    tokens = texte.split(/\s+/);
+    lignes = texte.split(/\n/).filter(l => l.trim() !== "");
+
+    alert(`Fichier chargé avec ${tokens.length} tokens et ${lignes.length} lignes non vides.`);
 }
 
+// Dictionnaire des fréquences
+function dictionnaire() {
+    if (tokens.length === 0) {
+        alert("Erreur : aucun texte chargé.");
+        return;
+    }
+
+    const freq = {};
+    tokens.forEach(token => {
+        const t = token.toLowerCase();
+        freq[t] = (freq[t] || 0) + 1;
+    });
+
+    const tableau = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+
+    const output = document.getElementById("resultats");
+    output.innerHTML = `<h3>Dictionnaire</h3><table><tr><th>Mot</th><th>Fréquence</th></tr>` +
+        tableau.map(([mot, freq]) => `<tr><td>${mot}</td><td>${freq}</td></tr>`).join('') +
+        `</table>`;
+}
+
+// Fonction GREP
+function grep() {
+    if (lignes.length === 0) {
+        alert("Erreur : aucun texte chargé.");
+        return;
+    }
+
+    const motif = document.getElementById("motif").value;
+    if (!motif) {
+        alert("Erreur : veuillez entrer une expression régulière.");
+        return;
+    }
+
+    const regex = new RegExp(motif, "gi");
+    const output = document.getElementById("resultats");
+    const resultats = lignes.map(ligne => {
+        if (regex.test(ligne)) {
+            return `<p>${ligne.replace(regex, match => `<span style='color:red;'>${match}</span>`)}</p>`;
+        }
+        return null;
+    }).filter(Boolean);
+
+    output.innerHTML = `<h3>Résultats GREP</h3>` + resultats.join('');
+}
+
+// Concordancier
+function concordancier() {
+    if (tokens.length === 0) {
+        alert("Erreur : aucun texte chargé.");
+        return;
+    }
+
+    const pôle = document.getElementById("motif").value;
+    if (!pôle) {
+        alert("Erreur : veuillez entrer un mot-clé.");
+        return;
+    }
+
+    const regex = new RegExp(`(.{0,30})(${pôle})(.{0,30})`, "gi");
+    const texte = document.getElementById("texte").value;
+    const output = document.getElementById("resultats");
+
+    const lignes = [...texte.matchAll(regex)].map(m =>
+        `<tr><td>${m[1]}</td><td><strong>${m[2]}</strong></td><td>${m[3]}</td></tr>`
+    );
+
+    output.innerHTML = `<h3>Concordancier</h3><table><tr><th>Contexte gauche</th><th>Pôle</th><th>Contexte droit</th></tr>` +
+        lignes.join('') + `</table>`;
+}
+
+// Fonction personnalisée : mots de 5 lettres
+function mots5lettres() {
+    if (tokens.length === 0) {
+        alert("Erreur : aucun texte chargé.");
+        return;
+    }
+
+    const mots = tokens.filter(t => t.length === 5);
+    const output = document.getElementById("resultats");
+    output.innerHTML = `<h3>Mots de 5 lettres</h3><p>${mots.join(', ')}</p>`;
+}
+
+// Aide / Documentation
+function afficherAide() {
+    const aide = `\nFonctionnalités disponibles :\n
+1. Charger un texte : segmentation en tokens et lignes.\n2. Dictionnaire : fréquence des mots.\n3. Grep : rechercher une expression régulière dans les lignes.\n4. Concordancier : affichage en contexte gauche/pôle/droit.\n5. Motifs de 5 lettres : affiche tous les mots de 5 lettres.`;
+    alert(aide);
+}
