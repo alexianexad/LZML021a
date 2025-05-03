@@ -72,3 +72,9 @@ button:hover {
 	min-height: 100%;
 	position: relative;
 }
+
+.surligne {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}
