@@ -28,7 +28,7 @@ document.getElementById("fileInput").addEventListener("change", function(event) 
     reader.readAsText(file);
 });
 
-// Fonction dictionnaire : tri des mots par fréquence (nuage de mots)
+// Fonction dictionnaire : tri des mots par fréquence
 function dictionnaire() {
     if (tokens.length === 0) {
         alert("Veuillez charger un fichier avant d’utiliser cette fonction.");
@@ -43,14 +43,12 @@ function dictionnaire() {
 
     const sorted = Object.entries(freqs).sort((a, b) => b[1] - a[1]);
 
-    let html = "<h2>Nuage de mots</h2><div style='line-height: 2em;'>";
-
-    sorted.slice(0, 100).forEach(([mot, freq]) => {
-        const taille = 10 + Math.log(freq) * 5;
-        html += `<span style='font-size: ${taille}px; margin: 5px; display: inline-block;'>${mot}</span> `;
+    let html = "<h2>Dictionnaire (par fréquence)</h2><table><tr><th>Mot</th><th>Fréquence</th></tr>";
+    sorted.forEach(([mot, freq]) => {
+        html += `<tr><td>${mot}</td><td>${freq}</td></tr>`;
     });
+    html += "</table>";
 
-    html += "</div>";
     document.getElementById("resultats").innerHTML = html;
 }
 
@@ -84,7 +82,7 @@ function concordancier() {
         return;
     }
 
-    const regex = new RegExp(`(.{0,30})\b(${motif})\b(.{0,30})`, "gi");
+    const regex = new RegExp(`(.{0,30})\\b(${motif})\\b(.{0,30})`, "gi");
     let html = "<h2>Concordancier</h2><table><tr><th>Contexte gauche</th><th>Pôle</th><th>Contexte droit</th></tr>";
 
     lignes.forEach(ligne => {
@@ -100,57 +98,3 @@ function concordancier() {
     html += "</table>";
     document.getElementById("resultats").innerHTML = html;
 }
-
-
-
-// Fonction spéciale : remplacer toutes les voyelles par '/' et compter leur nombre
-
-// Fonction spéciale : remplacer toutes les voyelles par '/' et compter leur nombre
-function surlignerVoyelles() {
-    if (!texteComplet) {
-        alert("Veuillez charger un fichier avant d’utiliser cette fonction.");
-        return;
-    }
-
-    // Compter les voyelles dans le texte
-    const voyelles = texteComplet.match(/[aeiouyàâäéèêëîïôöùûü]/gi) || [];
-    const nbVoyelles = voyelles.length;
-
-    // Alerte du nombre de voyelles
-    alert("Nombre de voyelles : " + nbVoyelles);
-
-    // Remplacer les voyelles par "/"
-    const texteModifie = texteComplet.replace(/[aeiouyàâäéèêëîïôöùûü]/gi, "/");
-
-    // Affichage dans le cadre
-    document.getElementById("resultats").innerHTML = 
-        "<h2>Texte modifié</h2>" +
-        "<p>Nombre de voyelles : " + nbVoyelles + "</p>" +
-        "<pre style='white-space: pre-wrap; word-wrap: break-word;'>" + texteModifie + "</pre>";
-}
-
-    if (!texteComplet) {
-        alert("Veuillez charger un fichier avant d’utiliser cette fonction.");
-        return;
-    }
-
-    // Échapper les caractères HTML pour éviter les conflits
-    const texteSecurise = texteComplet
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-
-    // Compter les voyelles
-    const nbVoyelles = (texteComplet.match(/[aeiouyàâäéèêëîïôöùûü]/gi) || []).length;
-
-    // Remplacer les voyelles par "/"
-    const texteModifie = texteSecurise.replace(/[aeiouyàâäéèêëîïôöùûü]/gi, "/");
-
-    // Affichage
-    document.getElementById("resultats").innerHTML = 
-        "<h2>Texte modifié</h2>" +
-        "<p>Nombre de voyelles : " + nbVoyelles + "</p>" +
-        "<pre>" + texteModifie + "</pre>";
-}
-
-
