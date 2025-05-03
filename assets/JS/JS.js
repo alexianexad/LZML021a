@@ -101,10 +101,7 @@ function concordancier() {
     document.getElementById("resultats").innerHTML = html;
 }
 
-// Fonction bonjour : affiche un message d'accueil
-function bonjour() {
-    document.getElementById("resultats").innerHTML = "<h2>Bonjour !</h2><p>Bienvenue dans l'analyseur de texte.</p>";
-}
+
 
 // Fonction spéciale : remplacer toutes les voyelles par '/' et compter leur nombre
 
