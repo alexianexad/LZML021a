@@ -1,3 +1,7 @@
+// Variables globales
+let tokens = [];
+let lignes = [];
+
 fonction demanderNom() {
 let nom = prompt("Quel est vetre nom?");
 if (nom) {
@@ -13,115 +17,57 @@ document.getElementById("holder1").innerHTML = name;
 }
 function afficherAide() {
 alert("Bienvenue sur mon site !");
+const aide = `Bienvenue sur le site !
+
+Fonctionnalités disponibles :
+1. Charger un texte : segmentation automatique en tokens et en lignes.
+2. Dictionnaire : affiche les mots triés par fréquence.
+3. Grep : cherche une expression dans les lignes (colorée en rouge).
+4. Concordancier : montre les mots en contexte gauche/pôle/droit.
+5. Mots de 5 lettres : affiche tous les mots de 5 lettres trouvés.
+
+Assurez-vous de charger un fichier texte avant d'utiliser les boutons.`;
+    alert(aide);
 }
 
-function segmenter() {
-let texte = document.getElementById("texte").value;
-let tokens = texte.split(" ");
-let table = document.createElement("table");
-tokens.forEach(mot => {
-let row = document.createElement("tr");
-row\.innerHTML = mot;
-table.appendChild(row);
-});
-document.getElementById("texteResultat").appendChild(table);
-}
-function segmenterTexte() {
-const fileInput = document.getElementById("fileInput");
-const delimiters = document.getElementById("delimID").value;
-const displayArea = document.getElementById("page-analysis");
 
-```
-if (!fileInput.files.length) {
-    alert("Veuillez sélectionner un fichier !");
-    return;
-}
 
-const file = fileInput.files[0];
-const reader = new FileReader();
+window.onload = function () {
+    const fileInput = document.getElementById('fileInput');
+    const fileDisplayArea = document.getElementById('fileDisplayArea');
 
-reader.onload = function (event) {
-    let text = event.target.result;
+    fileInput.addEventListener('change', function () {
+        const file = fileInput.files[0];
+        const textType = new RegExp("text.*");
 
-    // Création d'une regex pour les délimiteurs
-    let regex = new RegExp("[" + delimiters.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&") + "]+", "g");
+        if (file.type.match(textType)) {
+            const reader = new FileReader();
 
-    // Segmentation du texte
-    let segments = text.split(regex).filter(segment => segment.trim() !== "");
+            reader.onload = function (e) {
+                const texte = e.target.result;
+                fileDisplayArea.innerText = texte;
 
-    // Affichage du résultat
-    displayArea.innerHTML = "<h3>Résultat de la segmentation :</h3><p>" + segments.join("<br>") + "</p>";
-};
+                // Segmentation automatique
+                tokens = texte.split(/\s+/).filter(t => t.trim() !== "");
+                lignes = texte.split(/\n/).filter(l => l.trim() !== "");
 
-reader.readAsText(file);
-```
+                document.getElementById("logger").innerHTML =
+                    `<span class="infolog">Fichier chargé avec succès : ${tokens.length} tokens, ${lignes.length} lignes non vides.</span>`;
+            };
 
-}
-
-window\.onload = function() {
-let fileInput = document.getElementById('fileInput');
-let fileDisplayArea = document.getElementById('fileDisplayArea');
-
-```
-// On "écoute" si le fichier donné a été modifié.
-// Si on a donné un nouveau fichier, on essaie de le lire.
-fileInput.addEventListener('change', function(e) {
-    // Dans le HTML (ligne 22), fileInput est un élément de tag "input" avec un attribut type="file".
-    // On peut récupérer les fichiers données avec le champs ".files" au niveau du javascript.
-    // On peut potentiellement donner plusieurs fichiers,
-    // mais ici on n'en lit qu'un seul, le premier, donc indice 0.
-    let file = fileInput.files[0];
-    // on utilise cette expression régulière pour vérifier qu'on a bien un fichier texte.
-    let textType = new RegExp("text.*");
-
-    if (file.type.match(textType)) { // on vérifie qu'on a bien un fichier texte
-        // lecture du fichier. D'abord, on crée un objet qui sait lire un fichier.
-        var reader = new FileReader();
-
-        // on dit au lecteur de fichier de placer le résultat de la lecture
-        // dans la zone d'affichage du texte.
-        reader.onload = function(e) {
-            fileDisplayArea.innerText = reader.result;
+            reader.readAsText(file);
+        } else {
+            fileDisplayArea.innerText = "";
+            document.getElementById("logger").innerHTML =
+                '<span class="errorlog">Type de fichier non supporté !</span>';
         }
+    });
 
-        // on lit concrètement le fichier.
-        // Cette lecture lancera automatiquement la fonction "onload" juste au-dessus.
-        reader.readAsText(file);    
-
-        document.getElementById("logger").innerHTML = '<span class="infolog">Fichier chargé avec succès</span>';
-    } else { // pas un fichier texte : message d'erreur.
-        fileDisplayArea.innerText = "";
-        document.getElementById("logger").innerHTML = '<span class="errorlog">Type de fichier non supporté !</span>';
-    }
-});
-
-  document.querySelector("button:nth-of-type(2)").onclick = segmenterTexte;
-```
-
-}
-
-
-    // Associe la fonction de segmentation à un bouton
-    document.querySelector("button:nth-of-type(2)").onclick = segmenterTexte;
-}
-// Variables globales
-let tokens = [];
-let lignes = [];
-
-// Chargement et segmentation
-function chargerTexte() {
-    const textarea = document.getElementById("texte");
-    const texte = textarea.value.trim();
-    
-    if (!texte) {
-        alert("Veuillez d'abord coller un texte.");
-        return;
-    }
-
-    tokens = texte.split(/\s+/);
-    lignes = texte.split(/\n/).filter(l => l.trim() !== "");
-
-    alert(`Fichier chargé avec ${tokens.length} tokens et ${lignes.length} lignes non vides.`);
+    // Associer les fonctions aux bons boutons
+    document.getElementById("btnDictionnaire").onclick = dictionnaire;
+    document.getElementById("btnGrep").onclick = grep;
+    document.getElementById("btnConcordancier").onclick = concordancier;
+    document.getElementById("btnPersonnalise").onclick = mots5lettres;
 }
 
 // Dictionnaire des fréquences
@@ -152,7 +98,7 @@ function grep() {
         return;
     }
 
-    const motif = document.getElementById("motif").value;
+    const motif = document.getElementById("poleID").value;
     if (!motif) {
         alert("Erreur : veuillez entrer une expression régulière.");
         return;
@@ -177,14 +123,14 @@ function concordancier() {
         return;
     }
 
-    const pôle = document.getElementById("motif").value;
+    const pôle = document.getElementById("poleID").value;
     if (!pôle) {
         alert("Erreur : veuillez entrer un mot-clé.");
         return;
     }
 
     const regex = new RegExp(`(.{0,30})(${pôle})(.{0,30})`, "gi");
-    const texte = document.getElementById("texte").value;
+    const texte = document.getElementById("fileDisplayArea").innerText;
     const output = document.getElementById("resultats");
 
     const lignes = [...texte.matchAll(regex)].map(m =>
@@ -205,11 +151,4 @@ function mots5lettres() {
     const mots = tokens.filter(t => t.length === 5);
     const output = document.getElementById("resultats");
     output.innerHTML = `<h3>Mots de 5 lettres</h3><p>${mots.join(', ')}</p>`;
-}
-
-// Aide / Documentation
-function afficherAide() {
-    const aide = `\nFonctionnalités disponibles :\n
-1. Charger un texte : segmentation en tokens et lignes.\n2. Dictionnaire : fréquence des mots.\n3. Grep : rechercher une expression régulière dans les lignes.\n4. Concordancier : affichage en contexte gauche/pôle/droit.\n5. Motifs de 5 lettres : affiche tous les mots de 5 lettres.`;
-    alert(aide);
 }
