@@ -1,4 +1,4 @@
-voici mon js de base fonction demanderNom() {
+fonction demanderNom() {
 let nom = prompt("Quel est vetre nom?");
 if (nom) {
 alert("Bonjour,"+ nom+"!");
@@ -103,5 +103,52 @@ fileInput.addEventListener('change', function(e) {
 
     // Associe la fonction de segmentation à un bouton
     document.querySelector("button:nth-of-type(2)").onclick = segmenterTexte;
+}
+function dictionnaire() {
+  if (tokens.length === 0) {
+    afficherMessage("Erreur : aucun fichier chargé !");
+    return;
+  }
+  let freq = {};
+  tokens.forEach(t => freq[t] = (freq[t] || 0) + 1);
+  let sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]);
+  afficherTableau(sorted, "Forme", "Fréquence");
+}
+
+function grep(pole) {
+  if (lignes.length === 0) {
+    afficherMessage("Erreur : aucun fichier chargé !");
+    return;
+  }
+  if (!pole) {
+    afficherMessage("Erreur : aucun pôle fourni !");
+    return;
+  }
+  let exp = new RegExp(pole, "gi");
+  let resultats = lignes.filter(l => exp.test(l));
+  let colorie = l => l.replace(exp, m => `<span style="color:red">${m}</span>`);
+  let affichage = resultats.map(colorie).join("<br>");
+  document.getElementById("resultat").innerHTML = affichage;
+}
+
+function concordancier(pole, largeur = 5) {
+  if (tokens.length === 0) {
+    afficherMessage("Erreur : aucun fichier chargé !");
+    return;
+  }
+  if (!pole) {
+    afficherMessage("Erreur : aucun pôle fourni !");
+    return;
+  }
+  let regex = new RegExp(pole, "i");
+  let concordances = [];
+  for (let i = 0; i < tokens.length; i++) {
+    if (regex.test(tokens[i])) {
+      let gauche = tokens.slice(Math.max(0, i - largeur), i).join(" ");
+      let droite = tokens.slice(i + 1, i + 1 + largeur).join(" ");
+      concordances.push([gauche, tokens[i], droite]);
+    }
+  }
+  afficherTableau(concordances, "Contexte gauche", "Pôle", "Contexte droit");
 }
 
