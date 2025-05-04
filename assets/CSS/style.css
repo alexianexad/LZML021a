@@ -78,3 +78,8 @@ button:hover {
     color: white;
     font-weight: bold;
 }
+
+#chartContainer {
+    margin-top: 20px;
+}
+
