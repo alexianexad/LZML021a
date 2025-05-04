@@ -116,3 +116,67 @@ function surlignerVoyelles() {
 
     document.getElementById("resultats").innerHTML = "<h2>Texte avec voyelles remplacées par /</h2><pre>" + texteModifie + "</pre>";
 }
+
+function toggleHelp() {
+    const help = document.getElementById("help");
+    help.style.display = help.style.display === "none" ? "block" : "none";
+}
+
+function alertBonjour() {
+    alert("Voici un site qui permet d'analyser des textes.");
+}
+
+function nbPhrases() {
+    let text = document.getElementById('fileDisplayArea').textContent;
+    if (!text) {
+        alert("Il faut d'abord charger un fichier .txt !");
+        return;
+    }
+    let nb = text.split(/[.!?]+/).filter(p => p.trim().length > 0).length;
+    document.getElementById('page-analysis').innerHTML = '<div>Il y a ' + nb + ' phrases dans ce texte.</div>';
+}
+
+function tokenLong() {
+    if (global_var_tokens.length === 0) {
+        alert("Aucun fichier chargé ou texte vide.");
+        return;
+    }
+    let tokenSort = [...new Set(global_var_tokens)].sort((a, b) => b.length - a.length).slice(0, 10);
+    let map = tokenSort.map(token => '<tr><td>' + token + '</td><td>' + token.length + '</td></tr>').join('');
+    let resultat = '<table><tr><th colspan=2><b>Mots les plus longs</b></th></tr><tr><th>Mot</th><th>Longueur</th></tr>' + map + '</table>';
+    document.getElementById('page-analysis').innerHTML = resultat;
+}
+
+function pieChart() {
+    if (global_var_tokens.length === 0) {
+        alert("Il faut charger un fichier texte !");
+        return;
+    }
+    const stopwords = ["le", "la", "les", "de", "des", "et", "en", "un", "une"];
+    const filtered = global_var_tokens.filter(t => !stopwords.includes(t.toLowerCase()));
+    const count = {};
+    filtered.forEach(t => count[t] = (count[t] || 0) + 1);
+
+    const chartData = Object.entries(count)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([label, y]) => ({ label, y }));
+
+    const chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        backgroundColor: "transparent",
+        title: {
+            text: "Mots les plus fréquents"
+        },
+        data: [{
+            type: "pie",
+            showInLegend: true,
+            legendText: "{label}",
+            indexLabelFontSize: 14,
+            indexLabel: "{label} - {y}",
+            dataPoints: chartData
+        }]
+    });
+
+    chart.render();
+}
