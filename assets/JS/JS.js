@@ -104,7 +104,7 @@ function segText() {
         }
     }
 }
- 📚 Création du dictionnaire de fréquence
+// Création du dictionnaire de fréquence
 
 function dictionnaire() {
     if (document.getElementById('fileDisplayArea').innerHTML == "") {
@@ -165,7 +165,7 @@ function grep() {
 
 //  Affichage du concordancier autour d’un pôle
 
-function concord() {
+function concordancier() {
     if (document.getElementById('fileDisplayArea').innerHTML == "") {
         document.getElementById('logger3').innerHTML = "Il faut d'abord charger un fichier .txt !";
     } else {
@@ -207,9 +207,49 @@ function concord() {
                     document.getElementById("page-analysis").innerHTML = "";
                     document.getElementById("page-analysis").appendChild(table);
                 }
-            }
-        }
+        function nbPhrases() {
+    if (texteComplet.trim() === "") {
+        document.getElementById("logger3").innerHTML = "Il faut d'abord charger un fichier .txt !";
+    } else {
+        const phrases = texteComplet.split(/[.!?]+/).filter(p => p.trim() !== "");
+        document.getElementById("page-analysis").innerHTML = "Nombre de phrases : " + phrases.length;
     }
+}
+    function tokenLong() {
+    if (global_var_tokens.length === 0) {
+        document.getElementById("logger3").innerHTML = "Aucun token chargé !";
+    } else {
+        let maxLength = Math.max(...global_var_tokens.map(t => t.length));
+        let longestWords = [...new Set(global_var_tokens.filter(t => t.length === maxLength))];
+
+        document.getElementById("page-analysis").innerHTML =
+            "Mot(s) le(s) plus long(s) (" + maxLength + " caractères) :<br>" + longestWords.join(", ");
+    }
+}   
+                function pieChart() {
+    if (global_var_tokens.length === 0) {
+        document.getElementById("logger3").innerHTML = "Aucun token à analyser !";
+        return;
+    }
+
+    // Créer un dictionnaire de fréquence
+    let freq = {};
+    global_var_tokens.forEach(t => freq[t] = (freq[t] || 0) + 1);
+
+    // Trier par fréquence et prendre les 5 premiers
+    let top = Object.entries(freq)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5);
+
+    let labels = top.map(x => x[0]);
+    let data = top.map(x => x[1]);
+
+    const ctx = document.getElementById('myPieChart').getContext('2d');
+    new Chart(ctx, {
+       
+    });
+}
+    
 }
            
 
