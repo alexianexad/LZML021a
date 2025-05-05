@@ -31,19 +31,18 @@ document.getElementById("fileInput").addEventListener("change", function(event) 
 });
 
 // Afficher / Masquer aboutme -----------------------------------------------------------------------
-function showHide_aboutme() {
-	let div = document.getXXX("aboutme");
-	let b = document.getElementById("button_aboutme").innerHTML;
-  		if (div.style.display === "none") {
-   			div.style.diXXX;
-	  		let change = b.replace("more","less");
-	  		document.getElementById("button_aboutme").innerHTML = change;
-	  		}
-		else {
-			div.style.display = "none";
-			var change = XXX");
-	    	document.getElXXX = change;
-	    	}
+function showHide_aide() {
+    let div = document.getElementById("aide");
+    let bouton = document.getElementById("button_aide");
+
+    if (div.style.display === "none" || div.style.display === "") {
+        div.style.display = "block";
+        bouton.innerHTML = "Masquer l'aide";
+    } else {
+        div.style.display = "none";
+        bouton.innerHTML = "Afficher l'aide";
+    }
+}
 
 // Charger le texte -----------------------------------------------------------------------
 window.onload = function() {
