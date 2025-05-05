@@ -83,17 +83,7 @@ window.onload = function() {
     });
 }
 
-// Afficher / Masquer l'aide --------------------------------------------------------------------------
-function showHide_aide() {
-	let div = document.getElementById("aide");
-	let b = document.getElementById("button_aide").innerHTML;
-  		if xx
-	  		}
-		else {
-			xx
-	    	document.getElementById("button_aide").innerHTML = change;
-	    	}
-}
+
 
 // VERSION segText() ------------------------------------------------------------------------
 function segText() {
