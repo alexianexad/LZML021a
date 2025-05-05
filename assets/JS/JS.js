@@ -269,4 +269,29 @@ function surlignerVoyelles() {
     }
 }
                 
-      
+ // Fonction KUJUJ - ajoute "uj" à chaque token
+function kujuj() {
+    if (!global_var_tokens || global_var_tokens.length === 0) {
+        alert("Veuillez d'abord charger un texte !");
+    } else {
+        alert("c'est une plaisanterie !");
+        let kujujTokens = global_var_tokens.map(token => token + "uj");
+        let kujujText = kujujTokens.join(" ");
+        document.getElementById("logger1").innerHTML = `<p>${kujujText}</p>`;
+    }
+}
+
+// Nouvelle fonctionnalité : mots commençant par une majuscule
+function motsMajuscules() {
+    if (!global_var_tokens || global_var_tokens.length === 0) {
+        alert("Veuillez d'abord charger un texte !");
+        return;
+    }
+
+    let motsAvecMaj = global_var_tokens.filter(token => /^[A-ZÉÀÈÇÂÊÎÔÛÄËÏÖÜŸ]/.test(token));
+    if (motsAvecMaj.length === 0) {
+        document.getElementById("logger1").innerHTML = "<p>Aucun mot commençant par une majuscule trouvé.</p>";
+    } else {
+        document.getElementById("logger1").innerHTML = `<h3>Mots commençant par une majuscule :</h3><p>${motsAvecMaj.join(", ")}</p>`;
+    }
+}     
