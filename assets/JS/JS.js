@@ -249,7 +249,18 @@ function concordancier() {
        
     });
 }
-    
+                
+
+function surlignerVoyelles() {
+    const display = document.getElementById("fileDisplayArea");
+    if (display.innerText.trim() === "") {
+        document.getElementById("logger3").innerHTML = "Il faut d'abord charger un fichier .txt !";
+    } else {
+        const texte = display.innerText;
+        const texteModifie = texte.replace(/[aeiouyAEIOUY]/g, '/');
+        display.innerText = texteModifie;
+        document.getElementById("logger3").innerHTML = "Les voyelles ont été remplacées par des '/'.";
+    }
 }
            
 
