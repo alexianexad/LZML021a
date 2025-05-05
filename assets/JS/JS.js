@@ -107,6 +107,19 @@ function nbPhrases() {
         `<div>Il y a ${nb} phrases dans ce texte.</div>`;
 }
 
+function showHide_aide() {
+    const aide = document.getElementById("aide");
+    const bouton = document.getElementById("button_aide");
+
+    if (aide.style.display === "none" || aide.style.display === "") {
+        aide.style.display = "block";
+        bouton.innerText = "Masquer l'aide";
+    } else {
+        aide.style.display = "none";
+        bouton.innerText = "Afficher l'aide";
+    }
+}
+
 function tokenLong() {
     if (global_var_tokens.length === 0) return alert("Charger un fichier.");
     let sorted = [...new Set(global_var_tokens)].sort((a, b) => b.length - a.length).slice(0, 10);
