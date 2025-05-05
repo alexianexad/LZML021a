@@ -30,6 +30,25 @@ document.getElementById("fileInput").addEventListener("change", function(event) 
     reader.readAsText(file);
 });
 
+reader.onload = function(e) {
+    const texte = reader.result;
+
+    // Affichage du texte brut
+    fileDisplayArea.innerText = texte;
+
+    // Segmentation
+    const lignes = texte.split(/\r?\n/).filter(l => l.trim() !== "");
+    const tokens = texte.match(/\b\w+\b/g) || [];
+
+    // Affichage dans un logger
+    document.getElementById("logger2").innerHTML = 
+        '<span class="infolog">Nombre de tokens : ' + tokens.length +
+        '<br>Nombre de lignes : ' + lignes.length + '</span>';
+
+    // Appel à une fonction de segmentation personnalisée si elle existe
+    segText?.();
+};
+
 function dictionnaire() {
     if (tokens.length === 0) return alert("Veuillez charger un fichier.");
 
