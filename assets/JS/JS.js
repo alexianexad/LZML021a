@@ -129,19 +129,65 @@ function tokenLong() {
 }
 
 function pieChart() {
-    if (global_var_tokens.length === 0) return alert("Veuillez charger un fichier.");
-    const stopwords = ["le", "la", "les", "de", "des", "et", "en", "un", "une"];
-    const filtered = global_var_tokens.filter(t => !stopwords.includes(t.toLowerCase()));
-    const count = {};
-    filtered.forEach(t => count[t] = (count[t] || 0) + 1);
-    const data = Object.entries(count).sort((a, b) => b[1] - a[1]).slice(0, 10)
-        .map(([label, y]) => ({ label, y }));
+  const display = document.getElementById('fileDisplayArea');
+  const logger = document.getElementById('logger3');
 
-    const chart = new CanvasJS.Chart("chartContainer", {
-        animationEnabled: true,
-        backgroundColor: "transparent",
-        title: { text: "Mots les plus fréquents" },
-        data: [{ type: "pie", showInLegend: true, legendText: "{label}", indexLabel: "{label} - {y}", dataPoints: data }]
-    });
-    chart.render();
+  if (display.innerText.trim() === "") {
+    logger.innerHTML = "Veuillez d'abord charger un texte.";
+    return;
+  }
+
+  // Récupérer la liste de stopwords (séparés par virgules)
+  const stopwordInput = document.getElementById('stopwordInput').value;
+  const stopwords = stopwordInput
+    ? stopwordInput.toLowerCase().split(",").map(w => w.trim())
+    : [];
+
+  // Tokeniser le texte global
+  const global_var_tokens = display.innerText
+    .toLowerCase()
+    .match(/\b[\wàâçéèêëîïôûùüÿñæœ'-]+\b/g);
+
+  if (!global_var_tokens) {
+    logger.innerHTML = "Le texte ne contient aucun mot valide.";
+    return;
+  }
+
+  // Filtrer les stopwords
+  const filteredTokens = global_var_tokens.filter(token => !stopwords.includes(token));
+
+  // Compter les fréquences
+  const count = {};
+  filteredTokens.forEach(token => {
+    count[token] = (count[token] || 0) + 1;
+  });
+
+  // Trier et sélectionner les 30 premiers
+  const sortedTokens = Object.keys(count)
+    .sort((a, b) => count[b] - count[a])
+    .slice(0, 30);
+
+  const chartData = sortedTokens.map(token => ({
+    label: token,
+    y: count[token]
+  }));
+
+  // Création du graphique
+  const chart = new CanvasJS.Chart("chartContainer", {
+    animationEnabled: true,
+    backgroundColor: "transparent",
+    title: {
+      text: "Mots les plus fréquents"
+    },
+    data: [{
+      type: "pie",
+      showInLegend: true,
+      legendText: "{label}",
+      indexLabelFontSize: 14,
+      indexLabel: "{label} - {y}",
+      dataPoints: chartData
+    }]
+  });
+
+  chart.render();
 }
