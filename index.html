@@ -95,18 +95,20 @@
                 </center>
                 <br><br>
 
-                <div class="button-container">
-                    <button onclick="dictionnaire()">Dictionnaire</button>
-                    <button onclick="grep()">Grep</button>
+               <!-- Input pour fichier texte -->
+    <input type="file" id="fileInput"><br>
+    <div id="fileInfo"></div>
 
-                    <!-- Ces fonctions doivent exister dans JS.js -->
-                    <button onclick="surlignerVoyelles()">/: Remplace les voyelles</button>
-                    <button onclick="concordancier()">Concordancier</button>
-                    <button class="fade" onclick="kujuj()"><span>/kujuj/</span></button>
-                    <button onclick="nbPhrases()">Nombre de phrases</button>
-                    <button onclick="tokenLong()">Mots les plus longs</button>
-                    <button onclick="pieChart()">GrapheCamembert-Pie Chart</button>
-                </div>
+    <!-- Boutons de commande -->
+    <button onclick="afficherDictionnaire()">Afficher le dictionnaire</button>
+    <button onclick="grep()">Grep (recherche)</button>
+    <input type="text" id="motif" placeholder="Motif à chercher...">
+    <button onclick="concordancier()">Concordancier</button>
+    <button onclick="nbPhrases()">Nombre de phrases</button>
+    <button onclick="tokenLong()">Mots les plus longs</button>
+    <button onclick="surlignerVoyelles()">Surligner Voyelles</button>
+    <button onclick="kujuj()">Kujuj</button>
+
             </div>
 
             <center>
