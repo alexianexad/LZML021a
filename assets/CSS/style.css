@@ -83,3 +83,10 @@ button:hover {
     margin-top: 20px;
 }
 
+.token {
+  background-color: #eef;
+  margin: 2px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  display: inline-block;
+}
