@@ -33,8 +33,10 @@ document.getElementById("fileInput").addEventListener("change", function(event) 
 reader.onload = function(e) {
     const texte = reader.result;
 
-    // Affichage du texte brut
-    fileDisplayArea.innerText = texte;
+  // Affichage info
+        document.getElementById("fileInfo").textContent =
+            `Fichier chargé : ${file.name} | ${tokens.length} tokens | ${lignes.length} lignes non vides.`;
+
      // Affichage du texte brut
         document.getElementById("fileDisplayArea").textContent = texteComplet;
         document.getElementById("resultats").innerHTML = "";
