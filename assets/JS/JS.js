@@ -3,6 +3,10 @@ let lignes = [];
 let texteComplet = "";
 let global_var_tokens = [];
 
+function toggleHelp() {
+    const help = document.getElementById("help");
+    help.style.display = help.style.display === "none" ? "block" : "none";
+}
 document.getElementById("fileInput").addEventListener("change", function(event) {
     const file = event.target.files[0];
     if (!file) return;
