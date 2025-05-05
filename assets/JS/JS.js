@@ -30,6 +30,21 @@ document.getElementById("fileInput").addEventListener("change", function(event) 
     reader.readAsText(file);
 });
 
+// Afficher / Masquer aboutme -----------------------------------------------------------------------
+function showHide_aboutme() {
+	let div = document.getXXX("aboutme");
+	let b = document.getElementById("button_aboutme").innerHTML;
+  		if (div.style.display === "none") {
+   			div.style.diXXX;
+	  		let change = b.replace("more","less");
+	  		document.getElementById("button_aboutme").innerHTML = change;
+	  		}
+		else {
+			div.style.display = "none";
+			var change = XXX");
+	    	document.getElXXX = change;
+	    	}
+
 function dictionnaire() {
     if (tokens.length === 0) return alert("Veuillez charger un fichier.");
 
