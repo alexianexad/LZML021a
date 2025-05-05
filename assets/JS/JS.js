@@ -207,7 +207,7 @@ function concordancier() {
                     document.getElementById("page-analysis").innerHTML = "";
                     document.getElementById("page-analysis").appendChild(table);
                 }
-        function nbPhrases() {
+function nbPhrases() {
     if (texteComplet.trim() === "") {
         document.getElementById("logger3").innerHTML = "Il faut d'abord charger un fichier .txt !";
     } else {
@@ -215,7 +215,8 @@ function concordancier() {
         document.getElementById("page-analysis").innerHTML = "Nombre de phrases : " + phrases.length;
     }
 }
-    function tokenLong() {
+
+function tokenLong() {
     if (global_var_tokens.length === 0) {
         document.getElementById("logger3").innerHTML = "Aucun token chargé !";
     } else {
@@ -225,18 +226,17 @@ function concordancier() {
         document.getElementById("page-analysis").innerHTML =
             "Mot(s) le(s) plus long(s) (" + maxLength + " caractères) :<br>" + longestWords.join(", ");
     }
-}   
-                function pieChart() {
+}
+
+function pieChart() {
     if (global_var_tokens.length === 0) {
         document.getElementById("logger3").innerHTML = "Aucun token à analyser !";
         return;
     }
 
-    // Créer un dictionnaire de fréquence
     let freq = {};
     global_var_tokens.forEach(t => freq[t] = (freq[t] || 0) + 1);
 
-    // Trier par fréquence et prendre les 5 premiers
     let top = Object.entries(freq)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 5);
@@ -246,10 +246,16 @@ function concordancier() {
 
     const ctx = document.getElementById('myPieChart').getContext('2d');
     new Chart(ctx, {
-       
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#9966FF']
+            }]
+        }
     });
 }
-                
 
 function surlignerVoyelles() {
     const display = document.getElementById("fileDisplayArea");
@@ -262,7 +268,5 @@ function surlignerVoyelles() {
         document.getElementById("logger3").innerHTML = "Les voyelles ont été remplacées par des '/'.";
     }
 }
-           
-
- 
-
+                
+      
