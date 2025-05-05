@@ -35,6 +35,25 @@ reader.onload = function(e) {
 
     // Affichage du texte brut
     fileDisplayArea.innerText = texte;
+     // Affichage du texte brut
+        document.getElementById("fileDisplayArea").textContent = texteComplet;
+        document.getElementById("resultats").innerHTML = "";
+        document.getElementById("chartContainer").innerHTML = "";
+
+        // Affichage des lignes
+        const lignesArea = document.getElementById("lignesDisplayArea");
+        lignesArea.innerHTML = "<h3>Lignes :</h3><ul>" +
+            lignes.map((l, i) => `<li><strong>Ligne ${i + 1} :</strong> ${l}</li>`).join("") +
+            "</ul>";
+
+        // Affichage des tokens
+        const tokensArea = document.getElementById("tokensDisplayArea");
+        tokensArea.innerHTML = "<h3>Tokens :</h3><p>" +
+            tokens.join(" | ") +
+            "</p>";
+    };
+    reader.readAsText(file);
+});
 
     // Segmentation
     const lignes = texte.split(/\r?\n/).filter(l => l.trim() !== "");
